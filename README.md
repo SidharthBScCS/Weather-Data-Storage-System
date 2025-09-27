@@ -1,6 +1,7 @@
 **Weather Data Storage System**
 
 **Problem Staement**
+
 A Weather Data Storage System is a software solution designed to
 systematically collect, store, and manage weather-related data such as temperature,
 humidity, and atmospheric conditions. In the context of this assignment, it focuses on
@@ -47,7 +48,7 @@ datasets.
 - handleSpareData() -> it is used to handle null values if the user doesn't input a value in row or column this function fwill handle it and replaces it with "NULL".
 - analyzeComplexity() -> It prints the time complexity and space complexity.
 
-  **Time Complexity**
+**Time Complexity**
   - In Insert() function no loops are involved it only adds a new record.So, the time complexity is O(1).
   - In Retrive() function it loops through count and compare Date[i] & City[i].So,the time complexity is O(n) because all the n records are checked.
   - In Delete() function it loops through count and finds the target.So the time complexity is O(n) because it searches & shifting.
@@ -67,14 +68,16 @@ datasets.
 - Space Complexity
 - Practical Data Structures concepts
 
-  **Code Output**
+**Code Output**
   <img width="1362" height="717" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/ca37c8b3-414d-455a-bba7-c1f5e6de4106" />
 
 <img width="1366" height="738" alt="Screenshot (31)" src="https://github.com/user-attachments/assets/bed4963d-1d1e-44b7-9280-ad11019180b5" />
 
 **Student Details**
-**Name**       :     Sidharth Krishna S
-**RollNo**     :     2401720003
-**Course**     :     BSc Computer Science
-**Semester**   :     3rd
-**Assignment** :     | Theory Assignment 1 | Data Structures |
+- **Name**       :     Sidharth Krishna S
+- **RollNo**     :     2401720003
+- **Course**     :     BSc Computer Science
+- **Semester**   :     3rd
+- **Assignment** :     | Theory Assignment 1 | Data Structures |
+
+C++ File Link -> https://github.com/SidharthBScCS/Weather-Data-Storage-System/blob/main/WeatherDataStorageSystem.cpp
