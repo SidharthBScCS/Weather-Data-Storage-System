@@ -1,3 +1,5 @@
+// Coded By: | Sidharth Krishna S | 2401720003 | BSc Computer Science | Data Structures | Theory Assignment 1| //
+
 #include <iostream>
 using namespace std;
 
@@ -8,7 +10,6 @@ class WeatherManagementSystem{
     int count;
 
 public:
-
     WeatherManagementSystem(){
         count = 0;
     }
@@ -23,9 +24,11 @@ public:
 
     void Retrieve(string Date,string City){
         bool found = false;
-        for (int i = 0; i < count;i++){
+        for(int i=0;i<count;i++){
             if(this->Date[i]==Date && this->City[i]==City){
-                cout << "Temperature->" << Temperature[i] << endl;
+                cout << "Date -> " << this->Date[i] << endl;
+                cout << "City -> " << this->City[i] << endl;
+                cout << "Temperature -> " << this->Temperature[i] << endl;
                 found = true;
                 break;
             }
@@ -37,12 +40,12 @@ public:
 
     void Delete(string Date,string City){
         bool found = false;
-        for (int i = 0; i < count;i++){
-            if (this->Date[i] == Date && this->City[i]==City){
-                for (int j = i; j < count - 1;j++){
-                    this->Date[j] = Date[j - 1];
-                    this->City[j] = City[j - 1];
-                    this->Temperature[j] = Temperature[j - 1];
+        for(int i=0;i<count;i++){
+            if(this->Date[i]==Date && this->City[i]==City){
+                for(int j=i;j<count-1;j++){
+                    this->Date[j]=this->Date[j+1];
+                    this->City[j]=this->City[j+1];
+                    this->Temperature[j]=this->Temperature[j+1];
                 }
                 count--;
                 found = true;
@@ -55,77 +58,149 @@ public:
         }
     }
 
+    string* getDates(){ return Date; }
+    string* getCities(){ return City; }
+    double* getTemperatures(){ return Temperature; }
+    int getCount(){ return count; }
+
     void DisplayChoice(){
         cout << "1.Insert" << endl;
         cout << "2.Retrieve" << endl;
         cout << "3.Delete" << endl;
-        cout << "4.Create an 2D Array" << endl;
-        cout << "5.Row Access of 2D Array" << endl;
-        cout << "6.Column Access of 2D Array" << endl;
-        cout << "7.Handle Sparse Data of 2D Array" << endl;
-        cout << "8.Analyze Complexity" << endl;
-        cout << "9.Exit" << endl;
+        cout << "4.Row Access of 2D Array" << endl;
+        cout << "5.Column Access of 2D Array" << endl;
+        cout << "6.Analyze Complexity" << endl;
+        cout << "7.Exit" << endl;
     }
 };
 
-
 class Weather2DArray{
-    int Rows, Cols;
+    int Rows,Cols;
     int arr[5][5];
+    string RowNames[5];
+    string ColNames[5];
 
-    public:
-    Weather2DArray(int Rows,int Cols){
-        this->Rows = Rows;
-        this->Cols = Cols;
+public:
+    Weather2DArray(int r,int c){
+        Rows=0;
+        Cols=0;
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                arr[i][j]=-1;
+            }
+        }
     }
 
-    void populateArray(){
-        cout << "Enter temperature vaules:" << endl;
-        for (int i = 0; i < Rows;i++){
-            for (int j = 0; j < Cols;j++){
-                cin >> arr[i][j];
+    void populateArray(string Dates[],string Cities[],double Temperatures[],int Count){
+        Rows=0;
+        Cols=0;
+
+        for(int i=0;i<Count;i++){
+            bool cityExists=false;
+            for(int r=0;r<Rows;r++){
+                if(RowNames[r]==Cities[i]){
+                    cityExists=true;
+                    break;
+                }
+            }
+            if(!cityExists){
+                RowNames[Rows++]=Cities[i];
+            }
+        }
+
+        for(int i=0;i<Count;i++){
+            bool dateExists=false;
+            for(int c=0;c<Cols;c++){
+                if(ColNames[c]==Dates[i]){
+                    dateExists=true;
+                    break;
+                }
+            }
+            if(!dateExists){
+                ColNames[Cols++]=Dates[i];
+            }
+        }
+
+        for(int i=0;i<5;i++){
+            for(int j=0;j<5;j++){
+                arr[i][j]=-1;
+            }
+        }
+
+        for(int i=0;i<Count;i++){
+            int row=-1,col=-1;
+            for(int r=0;r<Rows;r++){
+                if(RowNames[r]==Cities[i]){
+                    row=r;
+                    break;
+                }
+            }
+            for(int c=0;c<Cols;c++){
+                if(ColNames[c]==Dates[i]){
+                    col=c;
+                    break;
+                }
+            }
+            if(row!=-1 && col!=-1){
+                arr[row][col]=Temperatures[i];
             }
         }
     }
 
     void rowMajorAccess(){
-        for (int i = 0; i < Rows;i++){
-            for (int j = 0; j < Cols;j++){
-                cout << arr[i][j] << " ";
+        cout << "       ";
+        for(int j=0;j<Cols;j++){
+            cout << ColNames[j] << " ";
+        }
+        cout << endl;
+        for(int i=0;i<Rows;i++){
+            cout << RowNames[i] << "  ";
+            for(int j=0;j<Cols;j++){
+                if(arr[i][j]==-1) cout << "NULL ";
+                else cout << arr[i][j] << " ";
             }
             cout << endl;
         }
     }
 
     void columnMajorAccess(){
-        for (int i = 0; i < Rows;i++){
-            for (int j = 0; j < Cols;j++){
-                cout << arr[j][i] << " ";
+        cout << "       ";
+        for(int i=0;i<Rows;i++){
+            cout << RowNames[i] << " ";
+        }
+        cout << endl;
+        for(int j=0;j<Cols;j++){
+            cout << ColNames[j] << "  ";
+            for(int i=0;i<Rows;i++){
+                if(arr[i][j]==-1) cout << "NULL ";
+                else cout << arr[i][j] << " ";
             }
             cout << endl;
         }
     }
 
     void handleSparseData(){
-        for (int i = 0; i < Rows;i++){
-            for (int j = 0; j < Cols;j++){
-                if(arr[i][j]==-1){
-                    cout << "NULL";
-                }
-                else{
-                    cout << arr[i][j] << " ";
-                }
+        cout << "       ";
+        for(int j=0;j<Cols;j++){
+            cout << ColNames[j] << " ";
+        }
+        cout << endl;
+        for(int i=0;i<Rows;i++){
+            cout << RowNames[i] << "  ";
+            for(int j=0;j<Cols;j++){
+                if(arr[i][j]==-1) cout << "NULL ";
+                else cout << arr[i][j] << " ";
             }
             cout << endl;
         }
     }
 
     void analyzeComplexity(){
-        cout << "Time Complexity| Insert | 0(1)" << endl;
-        cout << "Time Complexity| Retrieve | 0(1)" << endl;
-        cout << "Time Complexity| Delete | 0(n)" << endl;
-        cout<< "Time Complexity| Row&Column Access | 0(rows*cols)" << endl;
-        cout<<"Space Complexity | 0(rows*cols)"<<endl;
+        cout << "Time Complexity| Insert | O(1)" << endl;
+        cout << "Time Complexity| Retrieve | O(1)" << endl;
+        cout << "Time Complexity| Delete | O(n)" << endl;
+        cout << "Time Complexity| Row&Column Access | O(rows*cols)" << endl;
+        cout << "Space Complexity | O(rows*cols)" << endl;
     }
 };
 
@@ -138,66 +213,50 @@ int main(){
         cout << "Enter choice: ";
         cin >> choice;
         switch(choice){
-            case 1: {
-                string Date;
-                cout << "Enter date: ";
-                cin >> Date;
-
-                string City;
-                cout << "Enter city: ";
-                cin >> City;
-
+            case 1:{
+                string Date,City;
                 double Temperature;
-                cout << "Enter temperature: ";
-                cin >> Temperature;
-
-                obj.Insert(Date, City, Temperature);
+                cout << "Enter date: "; cin >> Date;
+                cout << "Enter city: "; cin >> City;
+                cout << "Enter temperature: "; cin >> Temperature;
+                obj.Insert(Date,City,Temperature);
+                arr.populateArray(obj.getDates(),obj.getCities(),obj.getTemperatures(),obj.getCount());
                 break;
             }
-            case 2: {
-                string Date;
-                cout << "Enter date: ";
-                cin >> Date;
-
-                string City;
-                cout << "Enter City: ";
-                cin >> City;
-
-                obj.Retrieve(Date, City);
+            case 2:{
+                string Date,City;
+                cout << "Enter date: "; cin >> Date;
+                cout << "Enter city: "; cin >> City;
+                obj.Retrieve(Date,City);
                 break;
             }
-            case 3: {
-                string Date;
-                cout << "Enter date: ";
-                cin >> Date;
-
-                string City;
-                cout << "Enter city: ";
-                cin >> City;
-
-                obj.Delete(Date, City);
+            case 3:{
+                string Date,City;
+                cout << "Enter date: "; cin >> Date;
+                cout << "Enter city: "; cin >> City;
+                obj.Delete(Date,City);
+                arr.populateArray(obj.getDates(),obj.getCities(),obj.getTemperatures(),obj.getCount());
                 break;
             }
-            case 4:
-                arr.populateArray();
-                break;
-            case 5:
-                arr.rowMajorAccess();
-                break;
-            case 6:
-                arr.columnMajorAccess();
-                break;
-            case 7:
+            case 4:{
                 arr.handleSparseData();
                 break;
-            case 8:
+            }
+            case 5:{
+                arr.columnMajorAccess();
+                break;
+            }
+            case 6:{
                 arr.analyzeComplexity();
                 break;
-            case 9:
+            }
+            case 7:{
                 cout << "Exited..." << endl;
                 break;
-            default:
+            }
+            default:{
                 cout << "Invalid choice" << endl;
+            }
         }
-    } while (choice != 9);
+    } while(choice!=7);
 }
